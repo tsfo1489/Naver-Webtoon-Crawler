@@ -53,7 +53,7 @@ def download_epi(epi_num) :
     print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
     print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
     print("Merging...")
-    ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num))
+    #ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num))
     print("Merging Complete!")
 
 if __name__ == '__main__':
@@ -95,3 +95,7 @@ if __name__ == '__main__':
     for i in range(1,n+1) :
         download_epi(i)
     driver.quit()
+    os.system('cls')
+    print('Complete!')
+    print('Press Enter to exit') 
+    input()

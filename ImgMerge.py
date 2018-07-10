@@ -24,11 +24,11 @@ def img_merge(files, x_size, y_size) :
 
 def Merge(tar_dir) :
     files = glob.glob(tar_dir+"\\*.*")
+    files.sort()
     size_x, size_y = calc_size(files)
     img = img_merge(files,size_x,size_y)
     num = '_E' + tar_dir[tar_dir.rfind('\\')+1:].zfill(3)
     title = tar_dir[:tar_dir.rfind('\\')]
     title = '\\'+title[title.rfind('\\')+1:]
     shutil.rmtree(tar_dir)
-    tar_dir = tar_dir[:tar_dir.rfind('\\')] + title + num + '.jpg' 
-    img.save(tar_dir,'JPEG')
+    img.save(tar_dir[:tar_dir.rfind('\\')]+title+num+'.jpg','JPEG')

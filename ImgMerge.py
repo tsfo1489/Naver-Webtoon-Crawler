@@ -1,5 +1,6 @@
 # -*- coding: euc-kr -*-
 import glob
+import shutil
 from PIL import Image  
 
 def calc_size(files) :
@@ -28,5 +29,6 @@ def Merge(tar_dir) :
     num = '_E' + tar_dir[tar_dir.rfind('\\')+1:].zfill(3)
     title = tar_dir[:tar_dir.rfind('\\')]
     title = '\\'+title[title.rfind('\\')+1:]
+    shutil.rmtree(tar_dir)
     tar_dir = tar_dir[:tar_dir.rfind('\\')] + title + num + '.jpg' 
     img.save(tar_dir,'JPEG')

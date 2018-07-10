@@ -42,9 +42,6 @@ def download_epi(epi_num) :
     progress_bar(epi_num,n)
     print("Estimate time : ",round(epi_time / epi_num * n,4),"s")
     print("Elapsed time  :",round(epi_time,4),"s")
-def set_Q(n, q):
-    for i in range(1,n+1) :
-        q.put(i) 
 
 global options
 options = webdriver.ChromeOptions()
@@ -57,9 +54,11 @@ options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple
 global driver
 driver = webdriver.Chrome(os.getcwd()+'\\chromedriver.exe',chrome_options=options)
 NW_url = 'https://comic.naver.com/webtoon/'
-
+driver.implicitly_wait(5)
+time.sleep(1)
 global title_id
-title_id = 710741
+os.system('cls')
+title_id = int(input("Webtoon Code : "))
 driver.get(NW_url + 'list.nhn?titleId=' + str(title_id))
 
 global dir
@@ -69,14 +68,15 @@ html = driver.page_source
 soup = BeautifulSoup(html,'html.parser')
 name = soup.select('head > title')[0].string
 name = name[:name.find('::')-1]
+print("Webtoon Name : ",name)
 last_epi = soup.select('#content > table > tbody > tr > td > a')
 last_epi = last_epi[1].get('href')
 n = int(last_epi[last_epi.find('no=')+3:last_epi.rfind('&')])
+print("Episode : ",n)
 try:
     os.stat(dir + '\\'+name)
 except:
     os.mkdir(dir + '\\'+name) 
-os.system('cls')
 start_time = time.time()
 for i in range(1,n+1) :
     download_epi(i)

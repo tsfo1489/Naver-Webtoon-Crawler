@@ -53,7 +53,7 @@ def download_epi(epi_num) :
     print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
     print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
     print("Merging...")
-    ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num))
+    ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num),cuttoon)
     print("Merging Complete!")
 
 if __name__ == '__main__':
@@ -77,6 +77,8 @@ if __name__ == '__main__':
 
     global dir
     global name
+    global cuttoon
+
     dir = os.getcwd()
     html = driver.page_source
     soup = BeautifulSoup(html,'html.parser')
@@ -87,6 +89,14 @@ if __name__ == '__main__':
     last_epi = last_epi[1].get('href')
     n = int(last_epi[last_epi.find('no=')+3:last_epi.rfind('&')])
     print("Episode : ",n)
+    cuttoon = soup.select('#content > div.comicinfo > div.detail > h2 > span.ico_cut')
+    print("Cuttoon : ",end='')
+    if len(cuttoon) != 0 :
+        cuttoon = True
+        print("Yes")
+    else :
+        cuttoon = False
+        print("No")
     try:
         os.stat(dir + '\\'+name)
     except:

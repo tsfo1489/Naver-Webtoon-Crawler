@@ -22,7 +22,6 @@ def img_merge(files, x_size, y_size) :
     return new_img
 
 def Merge(tar_dir) :
-    print(tar_dir)
     files = glob.glob(tar_dir+"\\*.*")
     size_x, size_y = calc_size(files)
     img = img_merge(files,size_x,size_y)
@@ -30,5 +29,4 @@ def Merge(tar_dir) :
     title = tar_dir[:tar_dir.rfind('\\')]
     title = '\\'+title[title.rfind('\\')+1:]
     tar_dir = tar_dir[:tar_dir.rfind('\\')] + title + num + '.jpg' 
-    print(title,num)
     img.save(tar_dir,'JPEG')

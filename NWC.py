@@ -55,7 +55,7 @@ global driver
 driver = webdriver.Chrome(os.getcwd()+'\\chromedriver.exe',chrome_options=options)
 NW_url = 'https://comic.naver.com/webtoon/'
 driver.implicitly_wait(5)
-time.sleep(1)
+time.sleep(3)
 global title_id
 os.system('cls')
 title_id = int(input("Webtoon Code : "))

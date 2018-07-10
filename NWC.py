@@ -1,6 +1,7 @@
 # -*- coding: euc-kr -*-
 from selenium import webdriver
 from bs4 import BeautifulSoup
+import ImgMerge
 import urllib
 import os
 import time
@@ -51,6 +52,9 @@ def download_epi(epi_num) :
     print(" Elapsed time  : ",round(elap_time,3),"s")
     print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
     print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
+    print("Merging...")
+    ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num))
+    print("Merging Complete!")
 
 if __name__ == '__main__':
     global options

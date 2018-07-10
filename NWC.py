@@ -20,7 +20,9 @@ def download_epi(epi_num) :
     try:
         os.stat(dir + '\\'+name+'\\'+str(epi_num))
     except:
-        os.mkdir(dir + '\\'+name+'\\'+str(epi_num))       
+        os.mkdir(dir + '\\'+name+'\\'+str(epi_num))
+    dir_size = 0 
+    calc_time = time.time()
     for i in list :
         img_src = i.get('src')
         img_ext = img_src[img_src.rfind('.'):]
@@ -36,12 +38,18 @@ def download_epi(epi_num) :
         data = f.read()
         fout = open(dir + '\\'+name+'\\'+str(epi_num)+'\\'+img_name+img_ext, 'wb')
         fout.write(data)
-    epi_time = time.time() - start_time
+        fout.close()
+        stat = os.path.getsize(dir + '\\'+name+'\\'+str(epi_num)+'\\'+img_name+img_ext)
+        dir_size = dir_size + stat
+    elap_time = time.time() - start_time
+    epi_time = time.time() - calc_time
     os.system('cls')
     print(name,"Epi",epi_num,"Download Complete!")
     progress_bar(epi_num,n)
-    print("Estimate time : ",round(epi_time / epi_num * n,4),"s")
-    print("Elapsed time  :",round(epi_time,4),"s")
+    print("Estimate time  : ",round(elap_time / epi_num * n,3),"s")
+    print(" Elapsed time  : ",round(elap_time,3),"s")
+    print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
+    print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
 
 global options
 options = webdriver.ChromeOptions()

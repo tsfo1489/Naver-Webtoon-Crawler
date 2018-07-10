@@ -26,7 +26,8 @@ def download_epi(epi_num) :
     for i in list :
         img_src = i.get('src')
         img_ext = img_src[img_src.rfind('.'):]
-        img_name = img_src[img_src.rfind('IMAG'):img_src.rfind('.')]
+        img_name = img_src[img_src.rfind('_')+1:img_src.rfind('.')]
+        img_name = name+'_' +str(epi_num)+'_'+img_name
         req = urllib.request.Request(
             img_src, 
             data=None, 
@@ -51,41 +52,42 @@ def download_epi(epi_num) :
     print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
     print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
 
-global options
-options = webdriver.ChromeOptions()
-options.add_argument('headless')
-options.add_argument('window-size=1920x1080')
-options.add_argument("disable-gpu")
-options.add_argument("lang=ko_KR") 
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
+if __name__ == '__main__':
+    global options
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    options.add_argument('window-size=1920x1080')
+    options.add_argument("disable-gpu")
+    options.add_argument("lang=ko_KR") 
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
 
-global driver
-driver = webdriver.Chrome(os.getcwd()+'\\chromedriver.exe',chrome_options=options)
-NW_url = 'https://comic.naver.com/webtoon/'
-driver.implicitly_wait(5)
-time.sleep(3)
-global title_id
-os.system('cls')
-title_id = int(input("Webtoon Code : "))
-driver.get(NW_url + 'list.nhn?titleId=' + str(title_id))
+    global driver
+    driver = webdriver.Chrome(os.getcwd()+'\\chromedriver.exe',chrome_options=options)
+    NW_url = 'https://comic.naver.com/webtoon/'
+    driver.implicitly_wait(5)
+    time.sleep(3)
+    global title_id
+    os.system('cls')
+    title_id = int(input("Webtoon Code : "))
+    driver.get(NW_url + 'list.nhn?titleId=' + str(title_id))
 
-global dir
-global name
-dir = os.getcwd()
-html = driver.page_source
-soup = BeautifulSoup(html,'html.parser')
-name = soup.select('head > title')[0].string
-name = name[:name.find('::')-1]
-print("Webtoon Name : ",name)
-last_epi = soup.select('#content > table > tbody > tr > td > a')
-last_epi = last_epi[1].get('href')
-n = int(last_epi[last_epi.find('no=')+3:last_epi.rfind('&')])
-print("Episode : ",n)
-try:
-    os.stat(dir + '\\'+name)
-except:
-    os.mkdir(dir + '\\'+name) 
-start_time = time.time()
-for i in range(1,n+1) :
-    download_epi(i)
-driver.quit()
+    global dir
+    global name
+    dir = os.getcwd()
+    html = driver.page_source
+    soup = BeautifulSoup(html,'html.parser')
+    name = soup.select('head > title')[0].string
+    name = name[:name.find('::')-1]
+    print("Webtoon Name : ",name)
+    last_epi = soup.select('#content > table > tbody > tr > td > a')
+    last_epi = last_epi[1].get('href')
+    n = int(last_epi[last_epi.find('no=')+3:last_epi.rfind('&')])
+    print("Episode : ",n)
+    try:
+        os.stat(dir + '\\'+name)
+    except:
+        os.mkdir(dir + '\\'+name) 
+    start_time = time.time()
+    for i in range(1,n+1) :
+        download_epi(i)
+    driver.quit()

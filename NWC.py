@@ -28,7 +28,7 @@ def download_epi(epi_num) :
         img_src = i.get('src')
         img_ext = img_src[img_src.rfind('.'):]
         img_name = img_src[img_src.rfind('_')+1:img_src.rfind('.')]
-        img_name = name+'_' +str(epi_num)+'_'+img_name
+        img_name = name+'_' +str(epi_num).zfill(3)+'_'+img_name
         req = urllib.request.Request(
             img_src, 
             data=None, 
@@ -53,7 +53,7 @@ def download_epi(epi_num) :
     print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
     print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
     print("Merging...")
-    #ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num))
+    ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num))
     print("Merging Complete!")
 
 if __name__ == '__main__':

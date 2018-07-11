@@ -8,9 +8,9 @@ import time
 
 def progress_bar(now, end):
     print(now,"/",end,"[",end='')
-    white = int(now / end * 20)
+    white = int(now / end * 40)
     print('+'*white,end='')
-    print(' '*(20-white)+']')
+    print(' '*(40-white)+']')
 
 def download_epi(epi_num) :
     url = 'https://comic.naver.com/webtoon/detail.nhn?titleId='+str(title_id)+'&no='+str(epi_num)
@@ -52,9 +52,10 @@ def download_epi(epi_num) :
     print(" Elapsed time  : ",round(elap_time,3),"s")
     print("    Epi Size   : ",round(dir_size / (1024 * 1024),3),"MB")
     print("Download Speed : ",round(dir_size / epi_time / 1000 / 1000,3),"Mbps")
-    print("Merging...")
-    ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num),cuttoon)
-    print("Merging Complete!")
+    if merge :
+        print("Merging...")
+        ImgMerge.Merge(dir+'\\'+name+'\\'+str(epi_num),cuttoon)
+        print("Merging Complete!")
 
 if __name__ == '__main__':
     global options
@@ -97,6 +98,13 @@ if __name__ == '__main__':
     else :
         cuttoon = False
         print("No")
+
+    global merge
+    merge = input('Do you want Merge?(Y/N) : ')
+    if merge == 'Y' :
+        merge = True
+    else :
+        merge = False
     try:
         os.stat(dir + '\\'+name)
     except:
